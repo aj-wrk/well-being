@@ -1,20 +1,30 @@
 body {
-    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
 }
 
-h1 {
-    margin-bottom: 20px;
+header h1 {
+    font-size: 2.5em;
+    color: #1DB954;
 }
 
-.card {
-    cursor: pointer;
-    transition: transform 0.2s;
+.mood-btn {
+    margin: 0.5em;
+    padding: 0.5em 2em;
 }
 
-.card:hover {
-    transform: scale(1.05);
+#recommendations {
+    display: flex;
+    flex-wrap: wrap;
 }
 
-#playlists {
-    margin-top: 50px;
+#recommendations .song {
+    flex: 1 1 30%;
+    margin: 0.5em;
+    padding: 1em;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
