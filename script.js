@@ -1,5 +1,5 @@
-const clientId = '5ce6c394f74f4c7bb2bcffef6bff236a';
-const clientSecret = 'eb263a1800f04db99c6fa81697a0487a';
+const clientId = '4da5a5ff08664ff9bc5aa87dcc2e1728';
+const clientSecret = 'a142799b960b4172956135d5d5e03cd4';
 const redirectUri = 'https://aj-wrk.github.io/well-being/'; // Set to your local environment or hosting URL
 
 let accessToken = null;
