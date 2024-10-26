@@ -3,18 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spotify Playlist Finder</title>
-  <style>
-    body { font-family: Arial, sans-serif; }
-    #playlists { margin-top: 20px; }
-    .playlist { margin: 10px 0; }
-  </style>
+  <title>Spotify Genre Explorer</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1>Spotify Playlist Finder</h1>
-<input type="text" id="artistName" placeholder="Enter artist name">
-<button id="searchButton">Search</button>
-<div id="playlists"></div>
+<h1>Spotify Genre Explorer</h1>
+<label for="genreSelect">Select a Genre:</label>
+<select id="genreSelect">
+  <option value="">--Choose a genre--</option>
+</select>
+<button id="getRecommendations">Get Recommendations</button>
+<div id="recommendations"></div>
 
 <script src="script.js"></script>
 </body>
