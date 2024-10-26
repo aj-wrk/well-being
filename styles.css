@@ -1,30 +1,37 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 20px;
 }
 
-header h1 {
-    font-size: 2.5em;
+h1 {
     color: #1DB954;
 }
 
-.mood-btn {
-    margin: 0.5em;
-    padding: 0.5em 2em;
+label, select, button {
+    margin: 10px 0;
 }
 
-#recommendations {
-    display: flex;
-    flex-wrap: wrap;
+#recommendations .track {
+    margin: 15px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    width: 100%;
+    max-width: 400px;
+    text-align: left;
 }
 
-#recommendations .song {
-    flex: 1 1 30%;
-    margin: 0.5em;
-    padding: 1em;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+button {
+    background-color: #1DB954;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #1AA34A;
 }
