@@ -1,8 +1,10 @@
 const clientId = '4da5a5ff08664ff9bc5aa87dcc2e1728'; // Replace with your Client ID
 const clientSecret = 'a142799b960b4172956135d5d5e03cd4'; // Replace with your Client Secret
 const tokenUrl = 'https://accounts.spotify.com/api/token';
-const playlistsUrl = 'https://api.spotify.com/v1/search';
+const genreUrl = 'https://api.spotify.com/v1/recommendations/available-genre-seeds';
+const recommendationUrl = 'https://api.spotify.com/v1/recommendations';
 
+// Function to get the access token
 async function getAccessToken() {
     const response = await fetch(tokenUrl, {
         method: 'POST',
@@ -16,42 +18,70 @@ async function getAccessToken() {
     return data.access_token;
 }
 
-async function searchPlaylists(artist) {
+// Function to get available genres
+async function getGenres() {
     const token = await getAccessToken();
-    const response = await fetch(`${playlistsUrl}?q=${artist}&type=playlist`, {
+    const response = await fetch(genreUrl, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
     });
     const data = await response.json();
-    return data.playlists.items;
+    return data.genres;
 }
 
-document.getElementById('searchButton').addEventListener('click', async () => {
-    const artistName = document.getElementById('artistName').value;
-    const playlistsDiv = document.getElementById('playlists');
+// Function to get recommendations based on selected genre
+async function getRecommendations(genre) {
+    const token = await getAccessToken();
+    const response = await fetch(`${recommendationUrl}?seed_genres=${genre}&limit=10`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    const data = await response.json();
+    return data.tracks;
+}
+
+// Populate genre dropdown
+async function populateGenres() {
+    const genres = await getGenres();
+    const genreSelect = document.getElementById('genreSelect');
+    genres.forEach(genre => {
+        const option = document.createElement('option');
+        option.value = genre;
+        option.textContent = genre;
+        genreSelect.appendChild(option);
+    });
+}
+
+// Display recommendations
+async function displayRecommendations() {
+    const genre = document.getElementById('genreSelect').value;
+    const recommendationsDiv = document.getElementById('recommendations');
 
     // Clear previous results
-    playlistsDiv.innerHTML = '';
+    recommendationsDiv.innerHTML = '';
 
-    if (artistName) {
-        const playlists = await searchPlaylists(artistName);
+    if (genre) {
+        const tracks = await getRecommendations(genre);
 
-        // Loop through the playlists array and display each playlist
-        if (playlists.length > 0) {
-            playlists.forEach(playlist => {
-                const playlistDiv = document.createElement('div');
-                playlistDiv.classList.add('playlist');
-                playlistDiv.innerHTML = `
-                    <strong>${playlist.name}</strong> - ${playlist.tracks.total} tracks
-                    <br><a href="${playlist.external_urls.spotify}" target="_blank">Listen</a>
-                `;
-                playlistsDiv.appendChild(playlistDiv);
-            });
-        } else {
-            playlistsDiv.innerHTML = 'No playlists found.';
-        }
+        // Loop through recommended tracks and display details
+        tracks.forEach(track => {
+            const trackDiv = document.createElement('div');
+            trackDiv.classList.add('track');
+            trackDiv.innerHTML = `
+                <strong>${track.name}</strong> by ${track.artists.map(artist => artist.name).join(', ')}
+                <br><a href="${track.external_urls.spotify}" target="_blank">Listen on Spotify</a>
+            `;
+            recommendationsDiv.appendChild(trackDiv);
+        });
     } else {
-        playlistsDiv.innerHTML = 'Please enter an artist name.';
+        recommendationsDiv.innerHTML = 'Please select a genre.';
     }
-});
+}
+
+// Initialize app by populating genres
+populateGenres();
+
+// Event listener for recommendations button
+document.getElementById('getRecommendations').addEventListener('click', displayRecommendations);
